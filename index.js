@@ -18,13 +18,21 @@ client.on('ready', () => {
 osu.on('message', (incoming) => {
   let data = JSON.parse(incoming)
   let state = '';
-  if (data.menu.state == 1)
+  let largeImageText;
+  if (data.menu.state == 1) {
     state = 'In the editor';
-  if (data.menu.state == 2);
-  state = `Clicking circles [${data.menu.mods.str}]`
+    largeImageText = 'pp mapping'
+  }
+  if (data.menu.state == 2) {
+    state = `Clicking circles [${data.menu.mods.str}]`
+    largeImageText = `getting a ${data.gameplay.pp.current}pp play`
+  } else {
+    state = 'Listening to: '
+    largeImageText = 'Vibing'
+  }
   client.setActivity({
     largeImageKey: 'logo-main',
-    largeImageText: `getting a ${data.gameplay.pp.current}pp play`,
+    largeImageText: largeImageText,
     details: `${data.menu.bm.metadata.artist} - ${data.menu.bm.metadata.title} | ${data.menu.bm.metadata.mapper}`,
     state: `${state}`,
     buttons: [{
