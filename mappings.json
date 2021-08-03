@@ -1,0 +1,26 @@
+[
+  {
+    "alias": "fullSR",
+    "path": "menu.bm.stats.fullSR"
+  },
+  {
+    "alias": "rtSR",
+    "path": "menu.bm.stats.SR"
+  },
+  {
+    "alias": "rtpp",
+    "path": "gameplay.pp.current"
+  },
+  {
+    "alias": "fcpp",
+    "path": "gameplay.pp.fc"
+  },
+  {
+    "alias": "maxpp",
+    "path": "gameplay.pp.maxThisPlay"
+  },
+  {
+    "alias": "rtcombo",
+    "path": "gameplay.combo.current"
+  }
+]

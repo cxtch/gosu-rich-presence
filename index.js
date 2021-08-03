@@ -7,12 +7,6 @@ const PID = process.pid
 const client = new DiscordRichPresence.Client({
   'transport': 'ipc'
 })
-client.login({
-  clientId: config.client_id,
-  scopes: scopes,
-  redirectUri: 'https://github.com/cxtch/gosu-rich-presence',
-  clientSecret: config.client_secret,
-})
 client.on('ready', () => {
   console.log(`sucessfully connected to ${client.user.username}`)
 })
@@ -25,7 +19,39 @@ let getLetterGrade = (data) => {
     return 'sh'
   return letter.toLowerCase()
 }
+let resolveObjectPath = (obj, path) => {
+  let pathArray = path.split('.');
+  for (let prop of pathArray) {
+    obj = obj[prop]
+  }
+  return obj
+}
+const mappings = (() => {
+  let map = new Map()
+  let array = require('./mappings.json')
+  array.map((a) => map.set(a.alias, a.path))
+  return map
+})()
+let createImageText = (data) => {
+  let originalText = config.inGameImageText;
+  let aliases = originalText.match(/(?<=\${)\S+(?=})/gm)
+  let result = originalText
+  try {
+    for (let x of aliases) {
+      let path = mappings.get(x)
+      let value = resolveObjectPath(data, path)
+      result = result.replace(x, value)
+    }
+  } catch (err) {
+    throw new Error(err)
+  }
+  return result
+}
+let lastUpdate = Date.now()
 osu.on('message', (incoming) => {
+  if (Date.now() - lastUpdate < config.update_rate)
+    return
+  lastUpdate = Date.now()
   let data = JSON.parse(incoming)
   let smallImageKey,
     state = '',
@@ -34,14 +60,15 @@ osu.on('message', (incoming) => {
     state = 'In the editor';
     largeImageText = `editing a ${data.menu.pp["100"]}pp map`
   } else if (data.menu.state == 2) {
-    state = `Clicking circles [+${data.menu.mods.str}]`;
-    largeImageText = `getting a ${data.gameplay.pp.current}pp play`;
+    state = `Clicking circles | [${data.menu.bm.metadata.difficulty}] +${data.menu.mods.str}`;
+    largeImageText = createImageText(data)
     smallImageKey = getLetterGrade(data);
     startTimestamp = Date.now() - data.menu.bm.time.current;
     endTimestamp = startTimestamp + data.menu.bm.time.full
+  } else if (data.menu.state == 7) {
+    state = 'Result screen'
   } else {
     state = 'Just listening'
-    largeImageText = 'idle'
   }
   const presence = {
     largeImageKey: 'logo-main',
@@ -63,6 +90,8 @@ osu.on('message', (incoming) => {
   }
   if (!presence.smallImageKey)
     delete presence.smallImageKey
+  if (!presence.largeImageText)
+    delete presence.largeImageText
   client.setActivity(presence)
 })
 process.stdin.on('data', (input) => {
@@ -78,4 +107,10 @@ process.on('beforeExit', () => {
   console.log('exiting')
   client.clearActivity(PID).catch((err) => {})
   process.exit()
+})
+client.login({
+  clientId: config.client_id,
+  scopes: scopes,
+  redirectUri: 'https://github.com/cxtch/gosu-rich-presence',
+  clientSecret: config.client_secret,
 })
