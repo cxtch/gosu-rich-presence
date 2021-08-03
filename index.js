@@ -41,7 +41,7 @@ osu.on('message', (incoming) => {
       },
       {
         label: 'profile',
-        url: `https://osu.ppy.sh/u/${config.profile}`
+        url: `https://osu.ppy.sh/users/${config.profile}`
       }
     ]
   })
