@@ -27,7 +27,7 @@ osu.on('message', (incoming) => {
     state = `Clicking circles [${data.menu.mods.str}]`
     largeImageText = `getting a ${data.gameplay.pp.current}pp play`
   } else {
-    state = 'Listening to: '
+    state = 'Just listening'
     largeImageText = 'Vibing'
   }
   client.setActivity({
