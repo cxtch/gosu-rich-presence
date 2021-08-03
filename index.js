@@ -23,6 +23,8 @@ osu.on('message', (incoming) => {
   if (data.menu.state == 2);
   state = `Clicking circles [${data.menu.mods.str}]`
   client.setActivity({
+    largeImageKey: 'logo-main',
+    largeImageText: `getting a ${data.gameplay.pp.current}pp play`,
     details: `${data.menu.bm.metadata.artist} - ${data.menu.bm.metadata.title} | ${data.menu.bm.metadata.mapper}`,
     state: `${state}`,
     buttons: [{
