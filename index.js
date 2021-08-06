@@ -1,6 +1,10 @@
 const WebSocket = require('ws')
 const config = require('./config.json')
 const osu = new WebSocket(`ws://localhost:${config.port}/ws`)
+osu.once('error', (e) => {
+  if (e.message.startsWith('connect ECONNREFUSED'))
+    throw new Error('Make sure gosu-memory is running!')
+})
 const scopes = ['rpc', 'rpc.activities.write'];
 const DiscordRichPresence = require('discord-rpc')
 const PID = process.pid

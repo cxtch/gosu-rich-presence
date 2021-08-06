@@ -22,5 +22,9 @@
   {
     "alias": "rtcombo",
     "path": "gameplay.combo.current"
+  },
+  {
+    "alias": "score",
+    "path": "gameplay.score"
   }
 ]
