@@ -1,11 +1,10 @@
 const WebSocket = require('ws')
-const config = require('./config.json')
+let config = require('./config.json')
 const osu = new WebSocket(`ws://localhost:${config.port}/ws`)
 osu.once('error', (e) => {
   if (e.message.startsWith('connect ECONNREFUSED'))
     throw new Error('Make sure gosu-memory is running!')
 })
-const scopes = ['rpc', 'rpc.activities.write'];
 const DiscordRichPresence = require('discord-rpc')
 const PID = process.pid
 const client = new DiscordRichPresence.Client({
@@ -44,7 +43,7 @@ let createImageText = (data) => {
     for (let x of aliases) {
       let path = mappings.get(x)
       let value = resolveObjectPath(data, path)
-      result = result.replace(x, value)
+      result = result.replace(`\${${x}}`, value)
     }
   } catch (err) {
     throw new Error(err)
@@ -57,6 +56,7 @@ osu.on('message', (incoming) => {
     return
   lastUpdate = Date.now()
   let data = JSON.parse(incoming)
+  let buttonText = 'profile'
   let smallImageKey,
     state = '',
     largeImageText, startTimestamp, endTimestamp;
@@ -68,7 +68,9 @@ osu.on('message', (incoming) => {
     largeImageText = createImageText(data)
     smallImageKey = getLetterGrade(data);
     startTimestamp = Date.now() - data.menu.bm.time.current;
-    endTimestamp = startTimestamp + data.menu.bm.time.full
+    endTimestamp = startTimestamp + data.menu.bm.time.full;
+    if (config.customButtonText)
+      buttonText = largeImageText
   } else if (data.menu.state == 7) {
     state = 'Result screen'
   } else {
@@ -85,13 +87,15 @@ osu.on('message', (incoming) => {
         url: `https://osu.ppy.sh/b/${data.menu.bm.id}`
       },
       {
-        label: 'profile',
+        label: buttonText,
         url: `https://osu.ppy.sh/users/${config.profile}`
       }
     ],
     startTimestamp: startTimestamp,
     endTimestamp: endTimestamp
   }
+  if (!config.smallImageKey)
+    delete presence.smallImageKey
   if (!presence.smallImageKey)
     delete presence.smallImageKey
   if (!presence.largeImageText)
@@ -102,6 +106,10 @@ process.stdin.on('data', (input) => {
   let message = input.toString().toLowerCase().trim();
   if (message === 'exit')
     process.emit('beforeExit')
+  if (message === 'reload') {
+    config = require('./config.json')
+    console.log('Config reloaded!')
+  }
 })
 process.on('uncaughtException', (e) => {
   console.log(e)
@@ -114,7 +122,6 @@ process.on('beforeExit', () => {
 })
 client.login({
   clientId: config.client_id,
-  scopes: scopes,
   redirectUri: 'https://github.com/cxtch/gosu-rich-presence',
   clientSecret: config.client_secret,
 })

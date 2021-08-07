@@ -2,7 +2,9 @@
   "port": 24050,
   "client_id": "871994303851937812",
   "client_secret": "IZr0m8JJ0p9SEn50GVzfkQ9t0j1MQHbn",
-  "update_rate": 1500,
-  "inGameImageText": "★: ${fullSR} | pp: ${rtpp}",
+  "update_rate": 100,
+  "inGameImageText": "★: ${fullSR} | ${rtcombo}x",
+  "smallImageKey": true,
+  "customButtonText": true,
   "profile": "cxtch"
 }
