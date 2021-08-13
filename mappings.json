@@ -26,5 +26,13 @@
   {
     "alias": "score",
     "path": "gameplay.score"
+  },
+  {
+    "alias": "AR",
+    "path": "menu.bm.stats.AR"
+  },
+  {
+    "alias": "BPM",
+    "path": "menu.bm.stats.BPM.max"
   }
 ]

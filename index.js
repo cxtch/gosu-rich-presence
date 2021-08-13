@@ -36,7 +36,11 @@ const mappings = (() => {
   return map
 })()
 let createImageText = (data) => {
-  let originalText = config.inGameImageText;
+  let originalText;
+  if (data.menu.state == 1)
+    originalText = config.inEditorText;
+  else if (data.menu.state == 2)
+    originalText = config.inGameText;
   let aliases = originalText.match(/(?<=\${)\S+(?=})/gm)
   let result = originalText
   try {
@@ -62,7 +66,9 @@ osu.on('message', (incoming) => {
     largeImageText, startTimestamp, endTimestamp;
   if (data.menu.state == 1) {
     state = 'In the editor';
-    largeImageText = `editing a ${data.menu.pp["100"]}pp map`
+    largeImageText = createImageText(data);
+    if (config.customButtonText)
+      buttonText = largeImageText
   } else if (data.menu.state == 2) {
     state = `Clicking circles | [${data.menu.bm.metadata.difficulty}] +${data.menu.mods.str}`;
     largeImageText = createImageText(data)
@@ -70,7 +76,7 @@ osu.on('message', (incoming) => {
     startTimestamp = Date.now() - data.menu.bm.time.current;
     endTimestamp = startTimestamp + data.menu.bm.time.full;
     if (config.customButtonText)
-      buttonText = largeImageText
+      buttonText = largeImageText;
   } else if (data.menu.state == 7) {
     state = 'Result screen'
   } else {

@@ -3,7 +3,8 @@
   "client_id": "871994303851937812",
   "client_secret": "IZr0m8JJ0p9SEn50GVzfkQ9t0j1MQHbn",
   "update_rate": 100,
-  "inGameImageText": "★: ${fullSR} | ${rtcombo}x",
+  "inGameText": "★: ${fullSR} ${rtcombo}x",
+  "inEditorText": "★: ${rtSR} AR: ${AR} BPM: ${BPM}",
   "smallImageKey": true,
   "customButtonText": true,
   "profile": "cxtch"
