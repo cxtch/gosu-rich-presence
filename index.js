@@ -82,6 +82,11 @@ osu.on('message', (incoming) => {
   } else {
     state = 'Just listening'
   }
+  let profileUrl = (() => {
+    if (!config.private_server)
+      return `https://osu.ppy.sh/users/${config.profile}`
+    return `https://${config.private_server}/${config.profile}`
+  })()
   const presence = {
     largeImageKey: 'logo-main',
     largeImageText: largeImageText,
@@ -94,7 +99,7 @@ osu.on('message', (incoming) => {
       },
       {
         label: buttonText,
-        url: `https://osu.ppy.sh/users/${config.profile}`
+        url: profileUrl
       }
     ],
     startTimestamp: startTimestamp,
