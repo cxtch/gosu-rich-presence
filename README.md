@@ -23,8 +23,13 @@ Let your friends know exactly what you're up to.
 ## This project depends on
 
 `discord-rpc`
+
 [gosumemory](https://github.com/l3lackShark/gosumemory)
 
 ## install
+
+`git clone https://github.com/cxtch/gosu-rich-presence.git`
+
+`cd gosu-rich-presence`
 
 `npm install`
