@@ -9,5 +9,6 @@
   "inEditorText": "${rtSR}★ | AR: ${AR} | BPM: ${BPM}",
   "resultText": "${rtmaxcombo}x / ${maxcombo}x | ${rtpp}pp | ${accuracy}%",
   "smallImageKey": true,
-  "customButtonText": true
+  "customButtonText": true,
+  "largeImageKey": "YOURLARGEIMAGEKEY"
 }

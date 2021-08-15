@@ -97,7 +97,7 @@ osu.on('message', (incoming) => {
     return `https://${config.private_server}/${config.profile}`
   })()
   const presence = {
-    largeImageKey: 'osu',
+    largeImageKey: config.largeImageKey,
     largeImageText: largeImageText,
     smallImageKey: smallImageKey,
     smallImageText: smallImageText,
