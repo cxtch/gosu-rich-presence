@@ -1,12 +1,13 @@
 {
-  "profile": "cxtch",
+  "profile": "YOURUSERNAMEHERE",
   "private_server": false,
   "port": 24050,
-  "client_id": "871994303851937812",
-  "client_secret": "IZr0m8JJ0p9SEn50GVzfkQ9t0j1MQHbn",
-  "update_rate": 1000,
-  "inGameText": "★: ${fullSR} ${rtcombo}x ${rtpp}pp",
-  "inEditorText": "★: ${rtSR} AR: ${AR} BPM: ${BPM}",
+  "client_id": "YOURCLIENTIDHERE",
+  "client_secret": "YOURCLIENTIDSECRETHERE",
+  "update_rate": 5000,
+  "inGameText": "${rtcombo}x / ${maxcombo}x | ${rtpp}pp | ${accuracy}%",
+  "inEditorText": "${rtSR}★ | AR: ${AR} | BPM: ${BPM}",
+  "resultText": "${rtmaxcombo}x / ${maxcombo}x | ${rtpp}pp | ${accuracy}%",
   "smallImageKey": true,
   "customButtonText": true
 }
