@@ -139,6 +139,7 @@ process.stdin.on('data', (input) => {
 process.on('uncaughtException', (e) => {
   fs.writeFileSync('error.txt', `${e.stack}`)
   console.log(e)
+  process.emit('beforeExit')
 })
 process.on('beforeExit', () => {
   console.log('exiting')
