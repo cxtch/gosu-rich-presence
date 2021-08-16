@@ -3,7 +3,9 @@
   "dependencies": {
     "discord-rpc": "^4.0.1"
   },
+  "bin": "index.js",
   "scripts": {
-    "install": "npm i discord-rpc"
+    "install": "npm i discord-rpc",
+    "build": "pkg . -t win"
   }
 }

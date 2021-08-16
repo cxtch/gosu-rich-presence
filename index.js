@@ -1,15 +1,19 @@
 const WebSocket = require('ws')
-let config = require('./config.json')
+let config_outline = require('./config.json')
+const fs = require('fs');
+if (!fs.existsSync('config.ini'))
+  fs.writeFileSync('config.ini', JSON.stringify(config_outline));
+const config = JSON.parse(fs.readFileSync('config.ini'))
 const osu = new WebSocket(`ws://localhost:${config.port}/ws`)
 osu.once('error', (e) => {
   if (e.message.startsWith('connect ECONNREFUSED'))
-    throw new Error('Make sure gosu-memory is running!')
+    throw new Error('Make sure gosu-memory is running!');
 })
-const DiscordRichPresence = require('discord-rpc')
-const PID = process.pid
+const DiscordRichPresence = require('discord-rpc');
+const PID = process.pid;
 const client = new DiscordRichPresence.Client({
   'transport': 'ipc'
-})
+});
 client.on('ready', () => {
   console.log(`sucessfully connected to ${client.user.username}`)
 })
