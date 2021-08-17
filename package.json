@@ -1,6 +1,7 @@
 {
   "name": "gosu-rich-presence",
   "dependencies": {
+    "clipboardy": "^2.3.0",
     "discord-rpc": "^4.0.1"
   },
   "bin": "index.js",

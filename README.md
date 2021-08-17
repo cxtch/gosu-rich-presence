@@ -28,6 +28,8 @@ Let your friends know exactly what you're up to.
 
 `discord-rpc`
 
+`clipboardy`
+
 [gosumemory](https://github.com/l3lackShark/gosumemory)
 
 ## install

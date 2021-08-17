@@ -9,6 +9,7 @@ osu.once('error', (e) => {
   if (e.message.startsWith('connect ECONNREFUSED'))
     throw new Error('Make sure gosu-memory is running!');
 })
+this.cache = {};
 const DiscordRichPresence = require('discord-rpc');
 const PID = process.pid;
 const client = new DiscordRichPresence.Client({
@@ -55,6 +56,7 @@ osu.on('message', (incoming) => {
     return
   lastUpdate = Date.now()
   let data = JSON.parse(incoming)
+  this.cache = data
   let buttonText = 'profile'
   let smallImageKey,
     state = '',
@@ -127,14 +129,22 @@ osu.on('message', (incoming) => {
     delete presence.largeImageText
   client.setActivity(presence)
 })
+this.commands = new Map()
+//hard coding because pkg
+this.commands.set('exit', require('./commands/exit.js'))
+this.commands.set('test', require('./commands/test.js'))
+this.commands.set('np', require('./commands/np.js'))
+this.commands.set('help', require('./commands/help.js'))
 process.stdin.on('data', (input) => {
   let message = input.toString().toLowerCase().trim();
-  if (message === 'exit')
-    process.emit('beforeExit')
-  if (message === 'reload') {
-    config = require('./config.json')
-    console.log('Config reloaded!')
-  }
+  if (this.commands.has(message)) {
+    try {
+      this.commands.get(message).run(this)
+    } catch (err) {
+      console.log(err)
+    }
+  } else
+    console.log('command not found!', message)
 })
 process.on('uncaughtException', (e) => {
   fs.writeFileSync('error.txt', `${e.stack}`)
@@ -149,5 +159,4 @@ process.on('beforeExit', () => {
 client.login({
   clientId: config.client_id,
   redirectUri: 'https://github.com/cxtch/gosu-rich-presence',
-  clientSecret: config.client_secret,
 })
