@@ -6,7 +6,7 @@
   },
   "bin": "index.js",
   "scripts": {
-    "install": "npm i discord-rpc; npm i clipboardy",
+    "install": "npm i discord-rpc && clipboardy",
     "pkg": "pkg . -t win"
   }
 }
