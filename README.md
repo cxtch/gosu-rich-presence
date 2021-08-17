@@ -1,41 +1,47 @@
-# gosu-rich-presence
+<h1 align="center">gosu-rich-presence</h1>
+<p align="center">A more detailed Discord Rich Presence for "osu!" with the help of gosumemory!</p>
 
-Let your friends know exactly what you're up to.
+![Preview A](https://thigh.photography/raw/riAXjNnbKD.png)  ![Preview B](https://download-ram.online/raw/sSU68CPuvH.png)
 
-### config
+## Dependencies
 
-`profile: string` your osu! profile
+| Name                                                                      |
+| ------------------------------------------------------------------------- |
+| [Discord RPC](https://github.com/discord/discord-rpc )                    |
+| [gosumemory](https://github.com/l3lackShark/gosumemory)                   |
+| [Clipboardy](https://github.com/sindresorhus/clipboardy)                  |
 
-`private_server: string | boolean` the link to your profile on a private server. Ripple would be `ripple.moe/u`
 
-`port: number` the port in config.ini
+## Installation and Usage from the source
 
-`client_id: string` your client id from discord.com/developers
+### Installation commands (copy and paste to your terminal of choice)
+```
+git clone https://github.com/cxtch/gosu-rich-presence.git
+cd gosu-rich-presence
+npm install
+```
 
-`client_secret: string` your client secret from discord.com/developers
+### Usage
+Simply run this command
+```
+node .
+```
 
-`update_rate: number` the number of milliseconds between rich presence updates
+## config.ini
 
-`inGameText: string` large image text when you are playing a beatmap
+If you don't know what boolean, string and integer understand:
+`boolean`: true or false
+`string`: user input (can be anything)
+`integer`: number
 
-`inEditorText: string` large image text when you are editing a beatmap
-
-`smallImageKey: boolean` whether to display your letter grade during gameplay
-
-`customButtonText: boolean` whether to display the inGame/EditorText over the buttons
-
-## This project depends on
-
-`discord-rpc`
-
-`clipboardy`
-
-[gosumemory](https://github.com/l3lackShark/gosumemory)
-
-## install
-
-`git clone https://github.com/cxtch/gosu-rich-presence.git`
-
-`cd gosu-rich-presence`
-
-`npm install`
+| Setting                             | Description                                                           |  
+| ------------------------------------| ----------------------------------------------------------------------|
+| `profile: string`                   | Profile link; Profile ID; Name are all accepted                       |
+| `private_server: string or boolean` | Used for private server profiles instead                              |
+| `port: string`                      | The Web Server port for gosumemory                                    |
+| `client_id: string`                 | The Rich Presence application ID that you can get [here](https://discord.com/developers/applications)|
+| `update_rate: integer`              | Update rate for Rich Presence *recommended value is 3000(ms)-5000(ms)*|
+| `ingameText: string`                | Large image text when you are playing a beatmap                       |
+| `inEditorText: string`              | Large image text when you are editing a beatmap                       |
+| `smallImageKey: boolean`            | Whether to display your letter grade during gameplay                  |
+| `customButtonText: boolean`         | Whether to display the inGame/EditorText over the buttons             |
