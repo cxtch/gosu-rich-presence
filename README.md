@@ -15,6 +15,7 @@
 ## Installation and Usage from the source
 
 ### Installation commands (copy and paste to your terminal of choice)
+
 ```
 git clone https://github.com/cxtch/gosu-rich-presence.git
 cd gosu-rich-presence
@@ -22,16 +23,21 @@ npm install
 ```
 
 ### Usage
+
 Simply run this command
+
 ```
 node .
 ```
 
-## config.ini
+## rpc-config.ini
 
 If you don't know what boolean, string and integer understand:
+
 `boolean`: true or false
+
 `string`: user input (can be anything)
+
 `integer`: number
 
 | Setting                             | Description                                                           |  
