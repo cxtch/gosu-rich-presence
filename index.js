@@ -1,9 +1,9 @@
 const WebSocket = require('ws')
 let config_outline = require('./config.json')
 const fs = require('fs');
-if (!fs.existsSync('config.ini'))
-  fs.writeFileSync('config.ini', JSON.stringify(config_outline).replace(/((?<="))?,(?=")/gm, ',\n'));
-const config = JSON.parse(fs.readFileSync('config.ini'))
+if (!fs.existsSync('rpc-config.ini'))
+  fs.writeFileSync('rpc-config.ini', JSON.stringify(config_outline).replace(/((?<="))?,(?=")/gm, ',\n'));
+const config = JSON.parse(fs.readFileSync('rpc-config.ini'))
 const osu = new WebSocket(`ws://localhost:${config.port}/ws`)
 osu.once('error', (e) => {
   if (e.message.startsWith('connect ECONNREFUSED'))
