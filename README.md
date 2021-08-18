@@ -12,7 +12,14 @@
 | [Clipboardy](https://github.com/sindresorhus/clipboardy)                  |
 
 
+## How to use
+
+The simplest way to use it, is to download the executable and config from [releases](https://github.com/cxtch/gosu-rich-presence/releases).
+The thing it isn't always updated so the best way to keep up to date is to use the method below.
+
 ## Installation and Usage from the source
+
+*This guide is assuming you have [git](https://git-scm.com/) installed.*
 
 ### Installation commands (copy and paste to your terminal of choice)
 
@@ -29,6 +36,16 @@ Simply run this command
 ```
 node .
 ```
+
+### Updating
+
+Git Bash in to the gosu-rich-presence folder
+
+```
+git pull
+```
+
+If the command doens't work simply type `git pull https://github.com/cxtch/gosu-rich-presence`
 
 ## rpc-config.ini
 
@@ -51,3 +68,8 @@ If you don't know what boolean, string and integer understand:
 | `inEditorText: string`              | Large image text when you are editing a beatmap                       |
 | `smallImageKey: boolean`            | Whether to display your letter grade during gameplay                  |
 | `customButtonText: boolean`         | Whether to display the inGame/EditorText over the buttons             |
+
+#### Troubleshooting
+
+If you have problems with the `npm install`.
+The easiest solution we've found for it is to delete `package-lock.json` and the `node_modules` folder.
