@@ -16,7 +16,9 @@ const client = new DiscordRichPresence.Client({
   'transport': 'ipc'
 });
 client.on('ready', () => {
-  console.log(`sucessfully connected to ${client.user.username}`)
+  console.log(`Successfully connected to ${client.user.username}.`)
+  console.log(`If it's not displayed on Discord. osu! has priority.`)
+  console.log(`Go to your in-game settings and turn off rich presence.`)
 })
 const {
   getLetterGrade,
