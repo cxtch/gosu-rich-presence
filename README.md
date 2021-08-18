@@ -30,7 +30,7 @@ cd gosu-rich-presence
 npm install
 ```
 
-#### Troubleshooting
+#### Troubleshooting the install
 
 If you have problems with the `npm install`.
 
