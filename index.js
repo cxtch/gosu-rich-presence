@@ -16,7 +16,9 @@ const client = new DiscordRichPresence.Client({
   'transport': 'ipc'
 });
 client.on('ready', () => {
-  console.log(`sucessfully connected to ${client.user.username}`)
+  console.log(`Successfully connected to ${client.user.username}.`)
+  console.log(`If it's not displayed on Discord. osu! has priority.`)
+  console.log(`Go to your in-game settings and turn off rich presence.`)
 })
 const {
   getLetterGrade,
@@ -57,7 +59,7 @@ osu.on('message', (incoming) => {
   lastUpdate = Date.now()
   let data = JSON.parse(incoming)
   this.cache = data
-  let buttonText = 'profile'
+  let buttonText = 'Profile'
   let smallImageKey,
     state = '',
     smallImageText, largeImageText, startTimestamp, endTimestamp;
@@ -110,7 +112,7 @@ osu.on('message', (incoming) => {
     details: `${data.menu.bm.metadata.title} | Mapped by ${data.menu.bm.metadata.mapper}`,
     state: `${state}`,
     buttons: [{
-        label: 'beatmap',
+        label: 'Beatmap',
         url: `https://osu.ppy.sh/b/${data.menu.bm.id}`
       },
       {
