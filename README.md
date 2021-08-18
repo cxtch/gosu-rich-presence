@@ -15,6 +15,7 @@
 ## How to use
 
 The simplest way to use it, is to download the executable and config from [releases](https://github.com/cxtch/gosu-rich-presence/releases).
+
 The thing it isn't always updated so the best way to keep up to date is to use the method below.
 
 ## Installation and Usage from the source
@@ -29,9 +30,15 @@ cd gosu-rich-presence
 npm install
 ```
 
+#### Troubleshooting
+
+If you have problems with the `npm install`.
+
+The easiest solution we've found for it is to delete `package-lock.json` and the `node_modules` folder.
+
 ### Usage
 
-Simply run this command
+Simply run this command in the gosu-rich-presence folder
 
 ```
 node .
@@ -68,8 +75,3 @@ If you don't know what boolean, string and integer understand:
 | `inEditorText: string`              | Large image text when you are editing a beatmap                       |
 | `smallImageKey: boolean`            | Whether to display your letter grade during gameplay                  |
 | `customButtonText: boolean`         | Whether to display the inGame/EditorText over the buttons             |
-
-#### Troubleshooting
-
-If you have problems with the `npm install`.
-The easiest solution we've found for it is to delete `package-lock.json` and the `node_modules` folder.
