@@ -3,8 +3,8 @@ let config_outline = require('./config.json')
 const fs = require('fs');
 if (!fs.existsSync('rpc-config.ini'))
   fs.writeFileSync('rpc-config.ini', JSON.stringify(config_outline).replace(/((?<="))?,(?=")/gm, ',\n'));
-const config = JSON.parse(fs.readFileSync('rpc-config.ini'))
-const osu = new WebSocket(`ws://localhost:${config.port}/ws`)
+this.config = JSON.parse(fs.readFileSync('rpc-config.ini'))
+const osu = new WebSocket(`ws://localhost:${this.config.port}/ws`)
 osu.once('error', (e) => {
   if (e.message.startsWith('connect ECONNREFUSED'))
     throw new Error('Make sure gosu-memory is running!');
@@ -34,11 +34,11 @@ const mappings = (() => {
 let createImageText = (data) => {
   let originalText;
   if (data.menu.state == 1)
-    originalText = config.inEditorText;
+    originalText = this.config.inEditorText;
   else if (data.menu.state == 2)
-    originalText = config.inGameText;
+    originalText = this.config.inGameText;
   else if (data.menu.state == 7)
-    originalText = config.resultText;
+    originalText = this.config.resultText;
   let aliases = originalText.match(/(?<=\${)\S+(?=})/gm)
   let result = originalText
   try {
@@ -54,16 +54,16 @@ let createImageText = (data) => {
 }
 let lastUpdate = Date.now()
 osu.on('message', (incoming) => {
-  if (Date.now() - lastUpdate < config.update_rate)
+  if (Date.now() - lastUpdate < this.config.update_rate)
     return
   lastUpdate = Date.now()
   let data = JSON.parse(incoming)
   this.cache = data
   let buttonText = 'Profile'
   let profileUrl = (() => {
-    if (!config.private_server)
-      return `https://osu.ppy.sh/users/${config.profile}`
-    return `https://${config.private_server}/${config.profile}`
+    if (!this.config.private_server)
+      return `https://osu.ppy.sh/users/${this.config.profile}`
+    return `https://${this.config.private_server}/${this.config.profile}`
   })()
   let smallImageKey,
     state = '',
@@ -71,7 +71,7 @@ osu.on('message', (incoming) => {
   if (data.menu.state == 1) {
     state = 'In the editor';
     largeImageText = createImageText(data);
-    if (config.customButtonText) buttonText = largeImageText
+    if (this.config.customButtonText) buttonText = largeImageText
   } else if (data.menu.state == 2) {
     state = `[${data.menu.bm.metadata.difficulty}] +${data.menu.mods.str} | ${data.menu.bm.stats.fullSR}★`;
     largeImageText = `Current PP: ${data.gameplay.pp.current} | Max PP: ${data.gameplay.pp.maxThisPlay} | Max PP if FC: ${data.gameplay.pp.fc}`
@@ -94,21 +94,21 @@ osu.on('message', (incoming) => {
       checkRound(startTimestamp);
       checkRound(endTimestamp);
     }
-    if (config.customButtonText)
+    if (this.config.customButtonText)
       buttonText = createImageText(data);
-    if (config.spectate_button)
-      profileUrl = `osu://spectate/${config.profile}`
+    if (this.config.spectate_button)
+      profileUrl = `osu://spectate/${this.config.profile}`
   } else if (data.menu.state == 7) {
     state = 'Result screen'
     smallImageKey = getLetterGrade(data);
     largeImageText = `Current PP: ${data.gameplay.pp.current} | Max PP: ${data.gameplay.pp.maxThisPlay} | Max PP if FC: ${data.gameplay.pp.fc}`
     smallImageText = `Sliderbreaks: ${data.gameplay.hits.sliderBreaks} | Misses: ${data.gameplay.hits[0]}`
-    if (config.customButtonText) buttonText = createImageText(data);
+    if (this.config.customButtonText) buttonText = createImageText(data);
   } else {
     state = 'Just listening'
   }
   const presence = {
-    largeImageKey: config.largeImageKey,
+    largeImageKey: this.config.largeImageKey,
     largeImageText: largeImageText,
     smallImageKey: smallImageKey,
     smallImageText: smallImageText,
@@ -120,13 +120,13 @@ osu.on('message', (incoming) => {
       },
       {
         label: buttonText,
-        url: profileUrl
+        url: encodeURI(profileUrl)
       }
     ],
     startTimestamp: startTimestamp,
     endTimestamp: endTimestamp
   }
-  if (!config.smallImageKey)
+  if (!this.config.smallImageKey)
     delete presence.smallImageKey
   if (!presence.smallImageKey)
     delete presence.smallImageKey
@@ -140,16 +140,17 @@ this.commands.set('exit', require('./commands/exit.js'))
 this.commands.set('test', require('./commands/test.js'))
 this.commands.set('np', require('./commands/np.js'))
 this.commands.set('help', require('./commands/help.js'))
+this.commands.set('config', require('./commands/config.js'))
 process.stdin.on('data', (input) => {
-  let message = input.toString().toLowerCase().trim();
-  if (this.commands.has(message)) {
+  let args = input.toString().toLowerCase().trim().split(/(?<!"\w+)\s/gm);
+  if (this.commands.has(args[0])) {
     try {
-      this.commands.get(message).run(this)
+      this.commands.get(args[0]).run(this, args)
     } catch (err) {
       console.log(err)
     }
   } else
-    console.log('command not found!', message)
+    console.log('command not found!', args[0])
 })
 process.on('uncaughtException', (e) => {
   fs.writeFileSync('error.txt', `${e.stack}`)
@@ -162,6 +163,6 @@ process.on('beforeExit', () => {
   process.exit()
 })
 client.login({
-  clientId: config.client_id,
+  clientId: this.config.client_id,
   redirectUri: 'https://github.com/cxtch/gosu-rich-presence',
 })
