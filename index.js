@@ -60,6 +60,11 @@ osu.on('message', (incoming) => {
   let data = JSON.parse(incoming)
   this.cache = data
   let buttonText = 'Profile'
+  let profileUrl = (() => {
+    if (!config.private_server)
+      return `https://osu.ppy.sh/users/${config.profile}`
+    return `https://${config.private_server}/${config.profile}`
+  })()
   let smallImageKey,
     state = '',
     smallImageText, largeImageText, startTimestamp, endTimestamp;
@@ -89,7 +94,10 @@ osu.on('message', (incoming) => {
       checkRound(startTimestamp);
       checkRound(endTimestamp);
     }
-    if (config.customButtonText) buttonText = createImageText(data);
+    if (config.customButtonText)
+      buttonText = createImageText(data);
+    if (config.spectate_button)
+      profileUrl = `osu://spectate/${config.profile}`
   } else if (data.menu.state == 7) {
     state = 'Result screen'
     smallImageKey = getLetterGrade(data);
@@ -99,11 +107,6 @@ osu.on('message', (incoming) => {
   } else {
     state = 'Just listening'
   }
-  let profileUrl = (() => {
-    if (!config.private_server)
-      return `https://osu.ppy.sh/users/${config.profile}`
-    return `https://${config.private_server}/${config.profile}`
-  })()
   const presence = {
     largeImageKey: config.largeImageKey,
     largeImageText: largeImageText,
