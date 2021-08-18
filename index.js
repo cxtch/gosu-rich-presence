@@ -57,7 +57,7 @@ osu.on('message', (incoming) => {
   lastUpdate = Date.now()
   let data = JSON.parse(incoming)
   this.cache = data
-  let buttonText = 'profile'
+  let buttonText = 'Profile'
   let smallImageKey,
     state = '',
     smallImageText, largeImageText, startTimestamp, endTimestamp;
@@ -110,7 +110,7 @@ osu.on('message', (incoming) => {
     details: `${data.menu.bm.metadata.title} | Mapped by ${data.menu.bm.metadata.mapper}`,
     state: `${state}`,
     buttons: [{
-        label: 'beatmap',
+        label: 'Beatmap',
         url: `https://osu.ppy.sh/b/${data.menu.bm.id}`
       },
       {
