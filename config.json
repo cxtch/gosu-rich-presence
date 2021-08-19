@@ -9,6 +9,6 @@
   "resultText": "${rtmaxcombo}x / ${maxcombo}x | ${rtpp}pp | ${accuracy}%",
   "smallImageKey": true,
   "customButtonText": true,
-  "largeImageKey": "YOURLARGEIMAGEKEY",
+  "largeImageKey": "logo-main",
   "spectate_button": true
 }
