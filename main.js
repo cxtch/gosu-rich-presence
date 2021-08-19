@@ -1,11 +1,11 @@
 module.exports = () => {
-  const WebSocket = require('ws')
-  let config_outline = require('./config.json')
+  const WebSocket = require('ws');
+  let config_outline = require('./config.json');
   const fs = require('fs');
   if (!fs.existsSync('rpc-config.ini'))
     fs.writeFileSync('rpc-config.ini', JSON.stringify(config_outline).replace(/((?<="))?,(?=")/gm, ',\n'));
-  this.config = JSON.parse(fs.readFileSync('rpc-config.ini'))
-  const osu = new WebSocket(`ws://localhost:${this.config.port}/ws`)
+  this.config = JSON.parse(fs.readFileSync('rpc-config.ini'));
+  const osu = new WebSocket(`ws://localhost:${this.config.port}/ws`);
   osu.once('error', (e) => {
     if (e.message.startsWith('connect ECONNREFUSED'))
       throw new Error('Make sure gosu-memory is running!');
@@ -17,9 +17,9 @@ module.exports = () => {
     'transport': 'ipc'
   });
   client.on('ready', () => {
-    console.log(`Successfully connected to ${client.user.username}.`)
-    console.log(`If it's not displayed on Discord. osu! has priority.`)
-    console.log(`Go to your in-game settings and turn off rich presence.`)
+    console.log(`Successfully connected to ${client.user.username}.`);
+    console.log(`If it's not displayed on Discord. osu! has priority.`);
+    console.log(`Go to your in-game settings and turn off rich presence.`);
   })
   const {
     getLetterGrade,
@@ -72,12 +72,12 @@ module.exports = () => {
     if (data.menu.state == 1) {
       state = 'In the editor';
       largeImageText = createImageText(data);
-      if (this.config.customButtonText) buttonText = largeImageText
+      if (this.config.customButtonText) buttonText = largeImageText;
     } else if (data.menu.state == 2) {
       state = `[${data.menu.bm.metadata.difficulty}] +${data.menu.mods.str} | ${data.menu.bm.stats.fullSR}★`;
-      largeImageText = `Current PP: ${data.gameplay.pp.current} | Max PP: ${data.gameplay.pp.maxThisPlay} | Max PP if FC: ${data.gameplay.pp.fc}`
+      largeImageText = `Current PP: ${data.gameplay.pp.current} | Max PP: ${data.gameplay.pp.maxThisPlay} | Max PP if FC: ${data.gameplay.pp.fc}`;
       smallImageKey = getLetterGrade(data);
-      smallImageText = `Sliderbreaks: ${data.gameplay.hits.sliderBreaks} | Misses: ${data.gameplay.hits[0]}`
+      smallImageText = `Sliderbreaks: ${data.gameplay.hits.sliderBreaks} | Misses: ${data.gameplay.hits[0]}`;
       let modsPlaying = data.menu.mods.str;
       if (modsPlaying.includes("DT")) {
         startTimestamp = Date.now() - (data.menu.bm.time.current / 1.5);
@@ -98,15 +98,15 @@ module.exports = () => {
       if (this.config.customButtonText)
         buttonText = createImageText(data);
       if (this.config.spectate_button)
-        profileUrl = `osu://spectate/${this.config.profile}`
+        profileUrl = `osu://spectate/${this.config.profile}`;
     } else if (data.menu.state == 7) {
-      state = 'Result screen'
+      state = 'Result screen';
       smallImageKey = getLetterGrade(data);
-      largeImageText = `Current PP: ${data.gameplay.pp.current} | Max PP: ${data.gameplay.pp.maxThisPlay} | Max PP if FC: ${data.gameplay.pp.fc}`
-      smallImageText = `Sliderbreaks: ${data.gameplay.hits.sliderBreaks} | Misses: ${data.gameplay.hits[0]}`
+      largeImageText = `Current PP: ${data.gameplay.pp.current} | Max PP: ${data.gameplay.pp.maxThisPlay} | Max PP if FC: ${data.gameplay.pp.fc}`;
+      smallImageText = `Sliderbreaks: ${data.gameplay.hits.sliderBreaks} | Misses: ${data.gameplay.hits[0]}`;
       if (this.config.customButtonText) buttonText = createImageText(data);
     } else {
-      state = 'Just listening'
+      state = 'Just listening';
     }
     const presence = {
       largeImageKey: this.config.largeImageKey,
@@ -128,15 +128,15 @@ module.exports = () => {
       endTimestamp: endTimestamp
     }
     if (!this.config.smallImageKey)
-      delete presence.smallImageKey
+      delete presence.smallImageKey;
     if (!presence.smallImageKey)
-      delete presence.smallImageKey
+      delete presence.smallImageKey;
     if (!presence.largeImageText)
-      delete presence.largeImageText
+      delete presence.largeImageText;
     client.setActivity(presence)
   })
   this.commands = new Map()
-  //hard coding because pkg
+  //hard coding because pkg does not allow dynamic imports
   this.commands.set('exit', require('./commands/exit.js'))
   this.commands.set('test', require('./commands/test.js'))
   this.commands.set('np', require('./commands/np.js'))
