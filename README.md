@@ -16,7 +16,11 @@
 
 The simplest way to use it, is to download the executable and config from [releases](https://github.com/cxtch/gosu-rich-presence/releases).
 
-The thing it isn't always updated so the best way to keep up to date is to use the method below.
+The thing it isn't always updated so the best way to keep up to date is to use the method below. 
+
+^ For example, the executable doesn't have clipboardy.
+We use clipboardy for the `np` command. If you write this in the console it will copy the current beatmap to the clipboard.
+This does not work on the executable.
 
 ## Installation and Usage from the source
 
@@ -54,17 +58,33 @@ git pull
 
 If the command doens't work simply type `git pull https://github.com/cxtch/gosu-rich-presence`
 
-## rpc-config.ini
+## Configuration 
 
-If you don't know what boolean, string and integer understand:
+### Editing the configuration
 
-`boolean`: true or false
+There are 2 ways to edit the configuration.
 
-`string`: user input (can be anything)
+* Live editing / In console editing
+* .ini file editing
 
-`integer`: number
+#### Live editing / In console editing
 
-| Setting                             | Description                                                           |  
+This allows the edit the configuration file through the console of gosu-rich-presence
+
+```
+config set <variable> <value>
+```
+There's a variable table if you scroll down.
+
+It's extremely simple to use. Example: `config set profile megahello`
+
+#### .ini file editing
+
+Open up `rpc-config.ini` in any text editor and edit the values.
+
+### Variables
+
+| Variable                            | Description                                                           |  
 | ------------------------------------| ----------------------------------------------------------------------|
 | `profile: string`                   | Profile link; Profile ID; Name are all accepted                       |
 | `private_server: string or boolean` | Used for private server profiles instead                              |
@@ -75,3 +95,13 @@ If you don't know what boolean, string and integer understand:
 | `inEditorText: string`              | Large image text when you are editing a beatmap                       |
 | `smallImageKey: boolean`            | Whether to display your letter grade during gameplay                  |
 | `customButtonText: boolean`         | Whether to display the inGame/EditorText over the buttons             |
+
+#### Word explanations
+
+If you don't know what boolean, string and integer mean:
+
+`boolean`: true or false (could also be 1 or 0)
+
+`string`: user input (can be anything)
+
+`integer`: number
