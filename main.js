@@ -54,12 +54,12 @@ module.exports = () => {
     return result
   }
   let lastUpdate = Date.now()
+  let start = Date.now()
   osu.on('message', (incoming) => {
     if (Date.now() - lastUpdate < this.config.update_rate)
       return
     lastUpdate = Date.now()
     let data = JSON.parse(incoming)
-    this.cache = data
     let buttonText = 'Profile'
     let profileUrl = (() => {
       if (!this.config.private_server)
@@ -70,6 +70,9 @@ module.exports = () => {
       state = '',
       smallImageText, largeImageText, startTimestamp, endTimestamp;
     if (data.menu.state == 1) {
+      if (this.cache.menu.state != 1)
+        start = Date.now();
+      startTimestamp = start
       state = 'In the editor';
       largeImageText = createImageText(data);
       if (this.config.customButtonText) buttonText = largeImageText;
@@ -133,10 +136,13 @@ module.exports = () => {
       delete presence.smallImageKey;
     if (!presence.largeImageText)
       delete presence.largeImageText;
+    if (!presence.endTimestamp)
+      delete presence.endTimestamp;
+    this.cache = data
     client.setActivity(presence)
   })
   this.commands = new Map()
-  //hard coding because pkg does not allow dynamic imports
+  //set commands manually because pkg does not allow dynamic imports
   this.commands.set('exit', require('./commands/exit.js'))
   this.commands.set('test', require('./commands/test.js'))
   this.commands.set('np', require('./commands/np.js'))
