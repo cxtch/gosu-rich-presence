@@ -69,14 +69,21 @@ module.exports = () => {
     let smallImageKey,
       state = '',
       smallImageText, largeImageText, startTimestamp, endTimestamp;
+    //if in the editor
     if (data.menu.state == 1) {
-      if (this.cache.menu.state != 1)
-        start = Date.now();
+      try {
+        if (this.cache.menu.state != 1)
+          start = Date.now();
+      } catch (err) {
+        //if this.cache.menu is undefined
+        start = Date.now()
+      }
       startTimestamp = start
       state = 'In the editor';
       largeImageText = createImageText(data);
       if (this.config.customButtonText) buttonText = largeImageText;
     } else if (data.menu.state == 2) {
+      //if in game
       state = `[${data.menu.bm.metadata.difficulty}] +${data.menu.mods.str} | ${data.menu.bm.stats.fullSR}★`;
       largeImageText = `Current PP: ${data.gameplay.pp.current} | Max PP: ${data.gameplay.pp.maxThisPlay} | Max PP if FC: ${data.gameplay.pp.fc}`;
       smallImageKey = getLetterGrade(data);
@@ -103,12 +110,14 @@ module.exports = () => {
       if (this.config.spectate_button)
         profileUrl = `osu://spectate/${this.config.profile}`;
     } else if (data.menu.state == 7) {
+      //if in result screen
       state = 'Result screen';
       smallImageKey = getLetterGrade(data);
       largeImageText = `Current PP: ${data.gameplay.pp.current} | Max PP: ${data.gameplay.pp.maxThisPlay} | Max PP if FC: ${data.gameplay.pp.fc}`;
       smallImageText = `Sliderbreaks: ${data.gameplay.hits.sliderBreaks} | Misses: ${data.gameplay.hits[0]}`;
       if (this.config.customButtonText) buttonText = createImageText(data);
     } else {
+      //assume all other states are when the player is idle
       state = 'Just listening';
     }
     const presence = {
